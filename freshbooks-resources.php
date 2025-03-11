@@ -114,6 +114,7 @@ function bizink_freshbooks_init(){
 
 add_action('parse_request','bizpress_freshbooksxml_request', 10, 1);
 function bizpress_freshbooksxml_request($wp){
+	$ending = substr(get_option('permalink_structure'), -1) == '/' ? '/':'';
 	if ( array_key_exists( 'bizpressxml', $wp->query_vars ) && $wp->query_vars['bizpressxml'] == 'freshbooks_resources' ){
 		$post = bizink_get_freshbooks_page_object();
 		if( is_object( $post ) && get_post_type( $post ) == "page" ){
@@ -124,20 +125,17 @@ function bizpress_freshbooksxml_request($wp){
 			}
 			header('Content-Type: text/xml; charset=UTF-8');
 			echo '<?xml version="1.0" encoding="UTF-8"?>';
-			$url = get_home_url();
-			$url = str_replace('https:','',$url);
-			$url = str_replace('http:','',$url);
-			echo '<?xml-stylesheet type="text/xsl" href="//'.$url.'/wp-content/plugins/wordpress-seo/css/main-sitemap.xsl"?>';
+			echo '<?xml-stylesheet type="text/xsl" href="'. plugins_url('wordpress-seo/css/main-sitemap.xsl', dirname(__FILE__)) .'"?>';
 			echo '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 			
 			echo '<url>';
-			echo '<loc>'.get_home_url().'/'.$post->post_name.'</loc>';
+			echo '<loc>'.esc_url(get_home_url().'/'.$post->post_name.$ending).'</loc>';
 			echo '</url>';
 			
 			if(empty($data->posts) == false){
 				foreach($data->posts as $item){
 					echo '<url>';
-					echo '<loc>'.get_home_url().'/'.$post->post_name.'/'. $item->slug .'</loc>';
+					echo '<loc>'.esc_url(get_home_url().'/'.$post->post_name.'/'.$item->slug.$ending).'</loc>';
 					if($item->thumbnail){
 						echo '<image:image>';
 						echo '<image:loc>'. $item->thumbnail .'</image:loc>';
