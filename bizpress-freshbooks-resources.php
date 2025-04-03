@@ -5,7 +5,7 @@
  * Plugin URI: https://bizinkonline.com
  * Author: Bizink
  * Author URI: https://bizinkonline.com
- * Version: 1.1
+ * Version: 1.2
  * Text Domain: bizink-client
  * Domain Path: /languages
  */
@@ -22,7 +22,7 @@ require 'plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 $myUpdateChecker = PucFactory::buildUpdateChecker('https://github.com/BizInk/bizpress-freshbooks-resources',__FILE__,'bizpress-freshbooks-resources');
 $myUpdateChecker->setBranch('main');
-$myUpdateChecker->setAuthentication('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');
+$myUpdateChecker->setAuthentication('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');
 
 if(is_plugin_active("bizpress-client/bizink-client.php")){
 	require 'freshbooks-resources.php';
