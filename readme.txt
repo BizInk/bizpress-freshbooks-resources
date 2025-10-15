@@ -15,6 +15,8 @@ Display business content on your website that is automatically updated by the Bi
 == Changelog ==
 
 = 1.2.1 =
+* SEO Settings
+* Updater Update
 
 = 1.2 =
 * Update Fix
