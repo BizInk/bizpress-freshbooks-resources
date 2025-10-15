@@ -66,6 +66,21 @@ function freshbooks_settings_fields( $fields, $section ) {
 		);
 	}
 
+	if('bizpress_seo' == $section['id']){
+		$fields['freshbooks'] = array(
+            'id' => 'freshbooks',
+            'label'	=> __( 'FreshBooks Resources', 'bizink-client' ),
+            'type' => 'divider'
+        );
+		$fields['freshbooks_sitemap'] = array(
+            'id' => 'freshbooks_sitemap',
+            'label'	=> __( 'Enable Sitemap - FreshBooks Resources', 'bizink-client' ),
+            'type' => 'switch',
+			'default' => 'off',
+			'desc' => __( 'Enable the sitemap for the FreshBooks resources page.', 'bizink-client' ),
+        );
+	}
+
 	return $fields;
 }
 add_filter( 'cx-settings-fields', 'freshbooks_settings_fields', 10, 2 );
@@ -163,6 +178,11 @@ function bizpress_freshbooksxml_query($vars) {
 }
 
 function bizpress_freshbooks_sitemap_custom_items( $sitemap_custom_items ) {
+	$enable_sitemap = cxbc_get_option( 'bizpress_seo', 'freshbooks_sitemap', true );
+	if ( ( $enable_sitemap == 'off' || $enable_sitemap == 0 || $enable_sitemap == false ) && $enable_sitemap != 1 ) {
+		return $sitemap_custom_items;
+	}
+
     $sitemap_custom_items .= '
 	<sitemap>
 		<loc>'.get_home_url().'/freshbooks_resources.xml</loc>
